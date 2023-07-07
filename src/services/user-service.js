@@ -1,10 +1,10 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import User from "../db";
+import User from "../models/User";
 
 class UserService {
   constructor(userModel) {
-    this.userModel = User;
+    this.userModel = userModel;
   }
 
 
@@ -14,8 +14,8 @@ class UserService {
     const { email, username, password, phone, address } = userInfo;
 
     // 이메일 중복 확인
-    const user = await this.userModel.findByEmail(email);
-    if (user) {
+    const exist = await this.userModel.exist(email);
+    if (exist) {
       throw new Error(
         "이 이메일은 현재 사용중입니다. 다른 이메일을 입력해 주세요."
       );
@@ -60,14 +60,14 @@ class UserService {
     }
 
     // 로그인 성공 -> JWT 웹 토큰 생성
-    const secretKey = process.env.ACCESS_SECRET || "secret-key";
-    const token = jwt.sign({ email, password }, secretKey);
+    const secretKey = process.env.ACCESS_SECRET;
+    const token = jwt.sign({ email }, secretKey);
 
     return { token };
   }
 
   // 비밀번호 맞는지 여부만 확인
-  async checkUserPassword(userId, password) {
+  async checkUserPassword(password) {
     // 이메일 db에 존재 여부 확인
     const user = await this.userModel.findById(userId);
 
@@ -134,14 +134,7 @@ class UserService {
   }
 
   // 위 setUser과 달리, 현재 비밀번호 없이도, 권한을 수정할 수 있음.
-  async setRole(userId, role) {
-    const updatedUser = await this.userModel.update({
-      userId,
-      update: { role },
-    });
-
-    return updatedUser;
-  }
+ 
 
   // 위 setUser과 달리, 현재 비밀번호 없이도, 주소 혹은 번호를 수정할 수 있음.
   async saveDeliveryInfo(userId, deliveryInfo) {
@@ -163,19 +156,19 @@ class UserService {
 
     return user;
   }
-
-  async deleteUserData(userId) {
-    const { deletedCount } = await this.userModel.deleteById(userId);
+// 유저 삭제
+  async deleteUserData(email) {
+    const { deletedCount } = await this.userModel.deleteOne(email);
 
     // 삭제에 실패한 경우, 에러 메시지 반환
     if (deletedCount === 0) {
-      throw new Error(`${userId} 사용자 데이터의 삭제에 실패하였습니다.`);
+      throw new Error(`${email} 사용자 데이터의 삭제에 실패하였습니다.`);
     }
 
     return { result: "success" };
   }
 }
 
-const userService = new UserService(userModel);
+const userService = new UserService(User);
 
 export { userService };

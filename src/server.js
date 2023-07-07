@@ -29,8 +29,8 @@ app.use(express.json())
 
 // api 라우터
 app.use("/api", userRouter);
-app.use("/api", productRouter);
-app.use("/api", orderRouter);
+// app.use("/api", productRouter);
+// app.use("/api", orderRouter);
 
 
 

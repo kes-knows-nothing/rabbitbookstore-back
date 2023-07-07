@@ -101,8 +101,8 @@ app.get("/accesstoken", (req, res) => {
     try {
         const token = req.cookies.accessToken;
         const data = jwt.verify(token, process.env.ACCESS_SECRECT);
+        // 그 때 당시 발급한 토큰이 맞는지 확인하는 함수 
         
-        // 이 함수가 어디 쓰여야하는거지?>ㄴ
     } catch (error) {
         
     }
