@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-mongoose.connect("mongodb://127.0.0.1:27017/bookstore", {
+mongoose.connect("mongodb+srv://epik1219:nEvC9uxoBzi5jCQ5@cluster0.k6qu4pb.mongodb.net/?retryWrites=true&w=majority", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
