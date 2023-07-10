@@ -40,6 +40,7 @@ app.use((error, req, res, next) => {
   });
 });
 
-app.listen(4000, function () {
-  console.log("Server is running now successfully!");
+const PORT = 3000;
+app.listen(PORT, function () {
+  console.log(`Server is running now successfully!! port: ${PORT}`);
 });
