@@ -19,14 +19,16 @@ function loginRequired(req, res, next) {
 
   // 해당 token 이 정상적인 token인지 확인
   try {
-    const secretKey = process.env.JWT_SECRET_KEY;
+    const secretKey = process.env.ACCESS_SECRET;
     const jwtDecoded = jwt.verify(userToken, secretKey);
-
-    const userId = jwtDecoded.userId;
+    const userEmail = jwtDecoded.email;
+    const userId = jwtDecoded.id;
     req.currentUserId = userId;
+    req.currentUserEmail = userEmail;
 
     next();
   } catch (error) {
+    console.log(error)
     res.status(401).json({
       result: "forbidden-approach",
       reason: "정상적인 토큰이 아닙니다.",

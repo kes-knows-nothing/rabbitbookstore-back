@@ -1,41 +1,45 @@
-import './db'
+import "./db";
 import express from "express";
 import dotenv from "dotenv";
-import cookieParser from "cookie-parser";
-import cors from "cors"
-import jwt from 'jsonwebtoken';
+import cors from "cors";
 
 import userRouter from "./routers/userRouter";
-import productRouter from "./routers/productRouter"
-import orderRouter from './routers/orderRouter';
+import productRouter from "./routers/productRouter";
+import orderRouter from "./routers/orderRouter";
 import morgan from "morgan";
-
+import authRouter from "./routers/authRouter";
 
 const app = express();
-const logger = morgan("dev")
+const logger = morgan("dev");
 dotenv.config();
 
-app.use(cors({
-    origin: 'http://localhost:5173/',
-    methods : [`GET`, 'POST'],
-    credentials: true
-}))
-
-app.use(logger)
+app.use(logger);
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json())
-
-
+app.use(express.json());
 
 // api 라우터
-app.use("/api", userRouter);
-// app.use("/api", productRouter);
-// app.use("/api", orderRouter);
 
+app.use("/api/auth", authRouter);
+app.use("/api/users", userRouter);
+app.use("/api/products", productRouter);
+app.use("/api/orders", orderRouter);
 
+app.use((req, res, next) => {
+  const error = new Error("리소스를 찾을 수 없습니다");
+  error.statusCode = 404;
+  next(error);
+});
 
+// 에러 핸들러 등록
+app.use((error, req, res, next) => {
+  console.log(error);
+  res.statusCode = error.statusCode ?? 500;
+  res.json({
+    data: null,
+    error: error.message,
+  });
+});
 
-
-app.listen(4000, function() {
-    console.log("Server is running now successfully!")
-})
+app.listen(4000, function () {
+  console.log("Server is running now successfully!");
+});
