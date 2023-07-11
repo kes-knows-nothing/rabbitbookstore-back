@@ -20,6 +20,7 @@ productRouter.get("/", loginRequired, async function (req, res, next) {
     next(error);
   }
 });
+//  url을 이걸 어케하지?
 
 productRouter.get(
   "/:productId",
