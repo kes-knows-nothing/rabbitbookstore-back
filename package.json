@@ -28,6 +28,7 @@
     "@babel/core": "^7.22.5",
     "@babel/node": "^7.22.5",
     "@babel/preset-env": "^7.22.5",
+    "@faker-js/faker": "^8.0.2",
     "nodemon": "^2.0.22"
   }
 }

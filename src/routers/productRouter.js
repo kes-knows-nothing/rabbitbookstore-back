@@ -1,8 +1,20 @@
 import express from "express";
 import { loginRequired } from "../middleware";
 import Product from "../models/Product";
+import { faker } from '@faker-js/faker';
 
 const productRouter = express.Router();
+
+// type Categories = 'novel' | 'poetry' | 'cook';
+
+// interface Product {
+//   name: String,
+//   price: Number,
+//   category: Categories
+  
+// }
+
+
 
 productRouter.get("/", loginRequired, async function (req, res, next) {
   try {

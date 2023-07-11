@@ -14,7 +14,7 @@ userRouter.get("/my-profile", loginRequired, async function (req, res, next) {
       username: userInfo.username,
       phone: userInfo.phone,
       address: userInfo.address,
-    }
+    };
     return res.status(200).json(info);
   } catch (error) {
     next(error);
@@ -23,16 +23,48 @@ userRouter.get("/my-profile", loginRequired, async function (req, res, next) {
 
 userRouter.put("/", loginRequired, async function (req, res, next) {
   try {
-    const { email, name, address, phone } = req.body;
-    const userEmail = req.currentUserEmail;
-    const update = {
+    const {
       email,
-      name,
+      username,
+      password,
+      newPassword,
+      newChkPassword,
       address,
       phone,
-    };
-    const userInfo = await User.findOneAndUpdate({ userEmail, update });
-    return res.status(200).json(userInfo);
+    } = req.body;
+    const userId = req.currentUserId;
+    if (originPassword === "") {
+      const update = {
+        email,
+        username,
+        address,
+        phone,
+      };
+      const userInfo = await User.findByIdAndUpdate(userId, update);
+      return res.status(200).json(userInfo);
+    } else {
+      const originPassword = await bcrypt.hash(password, 10);
+      const changedPassword = await bcrypt.hash(password, 10);
+      if (originPassword === changedPassword) {
+        throw new Error(
+          "이전 비밀번호와 같습니다. 다른 비밀번호를 설정해주세요."
+        );
+      }
+      if ( newPassword !== newChkPassword) {
+        throw new Error(
+          "변경하려는 비밀번호와 확인용 비밀번호가 일치하지 않습니다."
+        );
+      }
+      const update = {
+        email,
+        username,
+        password,
+        address,
+        phone,
+      };
+      const userInfo = await User.findByIdAndUpdate(userId, update);
+      return res.status(200).json(userInfo);
+    }
   } catch (error) {
     next(error);
   }
