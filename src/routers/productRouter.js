@@ -6,7 +6,7 @@ import Product from "../models/Product";
 const productRouter = express.Router();
 
 
-productRouter.get("/", loginRequired, async function (req, res, next) {
+productRouter.get("/", async function (req, res, next) {
   try {
     const { keyword } = req.query;
     if (!keyword) {
@@ -24,7 +24,6 @@ productRouter.get("/", loginRequired, async function (req, res, next) {
 
 productRouter.get(
   "/:productId",
-  loginRequired,
   async function (req, res, next) {
     try {
       const {productId} = req.params;
