@@ -29,7 +29,6 @@ userRouter.put("/", loginRequired, async function (req, res, next) {
       username,
       password,
       newPassword,
-      newChkPassword,
       address,
       phone,
     } = req.body;
@@ -45,7 +44,7 @@ userRouter.put("/", loginRequired, async function (req, res, next) {
       return res.status(200).json(userInfo);
     } else {
       const originPassword = await bcrypt.hash(password, 10);
-      const changedPassword = await bcrypt.hash(password, 10);
+      const changedPassword = await bcrypt.hash(newPassword, 10);
       if (originPassword === changedPassword) {
         throw new Error(
           "이전 비밀번호와 같습니다. 다른 비밀번호를 설정해주세요."

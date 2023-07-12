@@ -29,7 +29,7 @@ authRouter.post("/join", async (req, res, next) => {
         address,
       };
       const createdNewUser = await User.create(UserInfo);
-      res.status(201)
+      res.status(201).json(createdNewUser)
     }
   } catch (error) {
     next(error);
@@ -72,7 +72,7 @@ authRouter.post("/login", async function (req, res, next) {
     const email = req.body.email;
     const password = req.body.password;
     const user = await User.findOne({email});
-    if (user === []) {
+    if (!user || user === []) {
       throw new Error(
         "해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요."
       );

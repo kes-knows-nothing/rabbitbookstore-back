@@ -42,20 +42,5 @@ function loginRequired(req, res, next) {
 
 export { loginRequired };
 
-async function fakeUserData  (req, res, next) {
-  for (let i = 1; i < 30; i++) {
-    
-    const product = {
-      name: faker.lorem.words(), 
-      price: faker.number().int({ min: 10000, max: 30000 }),
-      description: faker.lorem.sentence(),
-      stock: faker.number().int({ max: 100 }),
-      author: faker.lorem.words(),
-      categoryName: faker.helpers.arrayElement(['novel', 'poetry', 'Sci-fi'])
-    };
 
-    await Product.create(product)
-  }
-}
 
-export { fakeUserData }

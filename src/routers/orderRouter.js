@@ -1,7 +1,6 @@
 import express from "express";
 import { loginRequired } from "../middleware";
 import Order from "../models/Order";
-import User from "../models/User";
 import Product from "../models/Product";
 
 const orderRouter = express.Router();
@@ -14,21 +13,22 @@ orderRouter.post("/", loginRequired, async (req, res, next) => {
       );
     }
     const userId = req.currentUserId;
-    const { products, address, name, phone } = req.body;
+    const { products, address, phone, totalPrice } = req.body;
     const newOrder = await Order.create({
       ordererId: userId,
       products,
       phone,
       address,
-      name,
+      totalPrice
     });
 
     for (const product of products) {
       await Product.updateOne(
-        { _id: product.id },
-        { $inc: { stock: -product.count } }
+        { _id: product._id },
+        { $inc: { stock: -product.quantity } }
       );
     }
+
     res.status(201).json(newOrder);
   } catch (error) {
     next(error);
@@ -37,10 +37,8 @@ orderRouter.post("/", loginRequired, async (req, res, next) => {
 
 orderRouter.get("/", loginRequired, async (req, res, next) => {
   try {
-    const email = req.currentUserEmail;
-    const userInfo = await User.findOne({ email });
-    const userId = userInfo._id;
-    const userOrder = await Order.findById(userId);
+    const id = req.currentUserId;
+    const userOrder = await Order.find({ ordererId: id });
     return res.status(200).json(userOrder);
   } catch (error) {
     next(error);
@@ -50,7 +48,8 @@ orderRouter.get("/", loginRequired, async (req, res, next) => {
 orderRouter.get("/:orderId", loginRequired, async (req, res, next) => {
   try {
     const orderId = req.params.orderId;
-    const order = await Order.findById({ orderId });
+    const id = req.currentUserId;
+    const order = await Order.findOne({ _id: orderId, ordererId: id });
     return res.status(200).json(order);
   } catch (error) {
     next(error);
@@ -60,7 +59,16 @@ orderRouter.get("/:orderId", loginRequired, async (req, res, next) => {
 orderRouter.delete("/:orderId", loginRequired, async (req, res, next) => {
   try {
     const orderId = req.params.orderId;
-    await Order.findByIdAndDelete({ orderId });
+    const id = req.currentUserId;
+    const deletedOrder = await Order.findOneAndDelete({
+      _id: orderId,
+      ordererId: id,
+    });
+    if (!deletedOrder) {
+      res.status(404).json({ message: "삭제할 데이터가 존재하지 않습니다." });
+      return;
+    }
+    res.status(200).json({ orderId });
   } catch (error) {
     next(error);
   }
