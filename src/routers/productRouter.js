@@ -1,7 +1,7 @@
 import express from "express";
-import { loginRequired } from "../middleware";
+import { fakeUserData, loginRequired } from "../middleware";
 import Product from "../models/Product";
-import { faker } from '@faker-js/faker';
+
 
 const productRouter = express.Router();
 
@@ -15,17 +15,14 @@ const productRouter = express.Router();
 // }
 
 
-
-productRouter.get("/", loginRequired, async function (req, res, next) {
+productRouter.get("/", loginRequired, fakeUserData, async function (req, res, next) {
   try {
     const { keyword } = req.query;
     if (!keyword) {
       res.status(200).json([]);
     }
     const products = await Product.find({
-      productName: {
-        $regex: new RegExp(`${keyword}$`, "i"),
-      },
+      categoryName: keyword
     });
     res.status(200).json(products);
   } catch (error) {

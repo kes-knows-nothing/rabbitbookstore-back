@@ -1,4 +1,6 @@
 import jwt from "jsonwebtoken";
+import { faker } from '@faker-js/faker';
+import Product from "./models/Product";
 
 function loginRequired(req, res, next) {
   // request 헤더로부터 authorization bearer 토큰을 받음.
@@ -39,3 +41,20 @@ function loginRequired(req, res, next) {
 }
 
 export { loginRequired };
+
+async function fakeUserData  (req, res, next) {
+  for (let i = 1; i < 30; i++) {
+    
+    const product = {
+      name: faker.lorem.words(), 
+      price: faker.number().int({ min: 10000, max: 30000 }),
+      description: faker.lorem.sentence(),
+      stock: faker.number().int({ max: 100 }),
+      categoryName: faker.helpers.arrayElement(['novel', 'poetry', 'Sci-fi'])
+    };
+
+    await Product.create(product)
+  }
+}
+
+export { fakeUserData }
