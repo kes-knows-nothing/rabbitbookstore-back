@@ -5,15 +5,6 @@ import Product from "../models/Product";
 
 const productRouter = express.Router();
 
-// type Categories = 'novel' | 'poetry' | 'cook';
-
-// interface Product {
-//   name: String,
-//   price: Number,
-//   category: Categories
-  
-// }
-
 
 productRouter.get("/", loginRequired, fakeUserData, async function (req, res, next) {
   try {

@@ -16,8 +16,10 @@ dotenv.config();
 app.use(logger);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
+app.use(cors());
 // api 라우터
+
+
 
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);

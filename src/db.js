@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-mongoose.connect("mongodb+srv://epik1219:2EBNBCdy4F09kNLd@cluster0.emus761.mongodb.net/?retryWrites=true&w=majority", {
+mongoose.connect("mongodb+srv://alicedevkes:olOYb3xdy6g1NyvY@cluster0.yfiw8ba.mongodb.net/?retryWrites=true&w=majority", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });

@@ -1,6 +1,7 @@
 import express from "express";
 import { loginRequired } from "../middleware";
 import User from "../models/User";
+import bcrypt from "bcrypt"
 
 const userRouter = express.Router();
 
@@ -50,15 +51,15 @@ userRouter.put("/", loginRequired, async function (req, res, next) {
           "이전 비밀번호와 같습니다. 다른 비밀번호를 설정해주세요."
         );
       }
-      if ( newPassword !== newChkPassword) {
-        throw new Error(
-          "변경하려는 비밀번호와 확인용 비밀번호가 일치하지 않습니다."
-        );
-      }
+      // if ( newPassword !== newChkPassword) {
+      //   throw new Error(
+      //     "변경하려는 비밀번호와 확인용 비밀번호가 일치하지 않습니다."
+      //   );
+      // }
       const update = {
         email,
         username,
-        password,
+        password: changedPassword,
         address,
         phone,
       };

@@ -50,6 +50,7 @@ async function fakeUserData  (req, res, next) {
       price: faker.number().int({ min: 10000, max: 30000 }),
       description: faker.lorem.sentence(),
       stock: faker.number().int({ max: 100 }),
+      author: faker.lorem.words(),
       categoryName: faker.helpers.arrayElement(['novel', 'poetry', 'Sci-fi'])
     };
 
