@@ -7,6 +7,7 @@ const productSchema = new mongoose.Schema({
   categoryName: { type: String, required: true },
   author: { type: String, required: true},
   quantity: { type: Number, required: true },
+  imgPath : { type: String, required: true},
 });
 
 const orderSchema = new mongoose.Schema({

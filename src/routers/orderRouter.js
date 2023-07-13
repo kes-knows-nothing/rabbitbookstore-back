@@ -2,6 +2,7 @@ import express from "express";
 import { loginRequired } from "../middleware";
 import Order from "../models/Order";
 import Product from "../models/Product";
+import User from "../models/User";
 
 const orderRouter = express.Router();
 
@@ -40,7 +41,8 @@ orderRouter.get("/", loginRequired, async (req, res, next) => {
   try {
     const id = req.currentUserId;
     const userOrder = await Order.find({ ordererId: id });
-    return res.status(200).json(userOrder);
+    const user = await User.find({ ordererId: id });
+    return res.status(200).json(userOrder, user);
   } catch (error) {
     next(error);
   }
