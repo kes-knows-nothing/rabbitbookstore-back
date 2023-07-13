@@ -35,6 +35,7 @@ orderRouter.post("/", loginRequired, async (req, res, next) => {
   }
 });
 
+// 본인이 주문한 목록 불러오기
 orderRouter.get("/", loginRequired, async (req, res, next) => {
   try {
     const id = req.currentUserId;

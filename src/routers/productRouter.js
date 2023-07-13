@@ -1,10 +1,7 @@
 import express from "express";
-import { fakeUserData, loginRequired } from "../middleware";
 import Product from "../models/Product";
 
-
 const productRouter = express.Router();
-
 
 productRouter.get("/", async function (req, res, next) {
   try {
@@ -20,7 +17,6 @@ productRouter.get("/", async function (req, res, next) {
     next(error);
   }
 });
-//  url을 이걸 어케하지?
 
 productRouter.get(
   "/:productId",

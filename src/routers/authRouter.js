@@ -38,15 +38,11 @@ authRouter.post("/join", async (req, res, next) => {
 
 authRouter.post("/duplicateChkId", async (req, res, next) => {
   try {
-      // application/json 설정을 프론트에서 안 하면, body가 비어 있게 됨.
       if (Object.keys(req.body).length === 0) {
-          // is lodash is 대신 key 값이 존재하는지로 판별하거나 lodash
           throw new Error(
               "headers의 Content-Type을 application/json으로 설정해주세요"
           );
       }
-
-      // req (request) 에서 데이터 가져오기
       const { email } = req.body;
       const exist = await User.exists({ email });
       if (exist) {
@@ -60,7 +56,6 @@ authRouter.post("/duplicateChkId", async (req, res, next) => {
       next(error);
   }
 });
-
 
 authRouter.post("/login", async function (req, res, next) {
   try {
@@ -105,8 +100,7 @@ authRouter.delete("/withdraw", loginRequired, async function (req, res, next) {
     if (deletedCount === 0) {
       throw new Error(`${email} 사용자 데이터의 삭제에 실패하였습니다.`);
     }
-   
-    res.json("success")
+    res.json({ result: "사용자 데이터가 삭제 되었습니다." })
   } catch (error) {
     next(error);
   }
