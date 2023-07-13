@@ -36,16 +36,21 @@ userRouter.put("/", loginRequired, async function (req, res, next) {
       const userInfo = await User.findByIdAndUpdate(userId, update);
       return res.status(200).json(userInfo);
     } else {
-      const originPassword = await bcrypt.hash(password, 10);
-      console.log(originPassword);
-      const changedPassword = await bcrypt.hash(newPassword, 10);
-      console.log(changedPassword);
-      if (originPassword === changedPassword) {
+      const storedUser = await User.findById(userId)
+      const storedPassword = storedUser.password
+      const isPasswordCorrect = await bcrypt.compare(
+        password,
+        storedPassword
+      );
+      console.log(isPasswordCorrect)
+      if (!isPasswordCorrect) {
         throw new Error(
-          "이전 비밀번호와 같습니다. 다른 비밀번호를 설정해주세요."
+          "현재 비밀번호를 잘못 입력하였습니다."
         );
       }
-      // 비밀번호 이전 비밀번호 체킹을 안해도 되는지?
+      console.log(newPassword)
+      const changedPassword = await bcrypt.hash(newPassword, 10);
+      console.log(changedPassword)
       const update = {
         email,
         username,
@@ -53,6 +58,7 @@ userRouter.put("/", loginRequired, async function (req, res, next) {
         address,
         phone,
       };
+      console.log(update)
       const userInfo = await User.findByIdAndUpdate(userId, update);
       return res.status(200).json(userInfo);
     }
