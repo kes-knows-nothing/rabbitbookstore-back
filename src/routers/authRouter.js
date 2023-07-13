@@ -14,21 +14,26 @@ authRouter.post("/join", async (req, res, next) => {
       );
     }
     const { email, username, password, phone, address } = req.body;
-    const emailRegex = /^[a-zA-Z0-9._+-]+@[a-zA-Z0-9._+-]+\.[a-zA-Z0-9.]+$/
-    const validateEmail = emailRegex.test(email)
+    const emailRegex = /^[a-zA-Z0-9._+-]+@[a-zA-Z0-9._+-]+\.[a-zA-Z0-9.]+$/;
+    const validateEmail = emailRegex.test(email);
     if (!validateEmail) {
       res.json({ result: "옳바르지 않은 이메일 형식입니다" });
       return;
     }
     const phoneRegex = /^[0-9]+$/;
-    const validatePhone = phoneRegex.test(phone)
+    const validatePhone = phoneRegex.test(phone);
     if (!validatePhone) {
-      res.json({ result: "전화번호는 숫자만 입력해주십시오" });
+      res.json({ result: "전화번호는 숫자만 입력해주십시오." });
       return;
     }
-    
+
     if (!email || !username || !password || !phone || !address) {
-      res.json({ result: "회원가입 양식을 모두 작성해주십시오" });
+      res.json({ result: "회원가입 양식을 모두 작성해주십시오." });
+      return;
+    }
+
+    if (password.length < 8) {
+      res.json({ result: "비밀번호는 8자리 이상이어야 합니다." });
       return;
     }
     const hashedPassword = await bcrypt.hash(password, 10);
