@@ -32,7 +32,7 @@ authRouter.post("/join", async (req, res, next) => {
       return;
     }
 
-    if (password.length < 8) {
+    if (password.length < 10) {
       res.json({ result: "비밀번호는 8자리 이상이어야 합니다." });
       return;
     }

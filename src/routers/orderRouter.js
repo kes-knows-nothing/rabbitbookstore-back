@@ -42,7 +42,7 @@ orderRouter.get("/", loginRequired, async (req, res, next) => {
     const id = req.currentUserId;
     const userOrder = await Order.find({ ordererId: id });
     const user = await User.find({ ordererId: id });
-    return res.status(200).json(userOrder, user);
+    return res.status(200).json({userOrder});
   } catch (error) {
     next(error);
   }
@@ -51,6 +51,9 @@ orderRouter.get("/", loginRequired, async (req, res, next) => {
 orderRouter.get("/:orderId", loginRequired, async (req, res, next) => {
   try {
     const orderId = req.params.orderId;
+    if (!orderId) {
+      throw new Error("찾으려는 주문 아이디가 없습니다.");
+    }
     const id = req.currentUserId;
     const order = await Order.findOne({ _id: orderId, ordererId: id });
     return res.status(200).json(order);

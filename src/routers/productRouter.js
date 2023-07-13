@@ -23,6 +23,9 @@ productRouter.get(
   async function (req, res, next) {
     try {
       const {productId} = req.params;
+      if (!productId) {
+        throw new Error("찾으려는 상품 아이디가 없습니다.");
+      }
       console.log(productId)
       const productObj = await Product.findById( productId );
       console.log(productObj)
