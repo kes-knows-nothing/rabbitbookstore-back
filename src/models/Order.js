@@ -7,6 +7,7 @@ const productSchema = new mongoose.Schema({
   categoryName: { type: String, required: true },
   author: { type: String, required: true},
   quantity: { type: Number, required: true },
+  imgPath : { type: String, required: true}
 });
 
 const orderSchema = new mongoose.Schema({
@@ -21,7 +22,7 @@ const orderSchema = new mongoose.Schema({
   },
   phone: { type: String, required: true },
   totalPrice: { type: String, required: true },
-  imgPath : { type: String, required: true}
+  
 });
 
 const Order = mongoose.model("Order", orderSchema);
