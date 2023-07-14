@@ -3,7 +3,8 @@
     {
       "src": "/src/server.js",
       "use": "@vercel/node"
-    }
+    },
+    { "src": "/src/*.html", "use": "@vercel/static" }
   ],
   "routes": [
     {
