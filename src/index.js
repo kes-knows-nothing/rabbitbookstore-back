@@ -22,11 +22,11 @@ app.get('/', (req, res) => {
   res.send("<h2>GET / | Express App Responded</h2>");
 });
 
-// api 라우터
-app.use("/api/auth", authRouter);
-app.use("/api/users", userRouter);
-app.use("/api/products", productRouter);
-app.use("/api/orders", orderRouter);
+// src 라우터
+app.use("/src/auth", authRouter);
+app.use("/src/users", userRouter);
+app.use("/src/products", productRouter);
+app.use("/src/orders", orderRouter);
 app.use("/static", express.static("public"));
 
 
