@@ -2,7 +2,6 @@ import "./db";
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import path from "path";
 
 import userRouter from "./routers/userRouter";
 import productRouter from "./routers/productRouter";
@@ -20,8 +19,7 @@ app.use(express.json());
 app.use(cors());
 
 app.get('/', (req, res) => {
-  console.log(path.join(__dirname));
-  res.sendFile('index.html', {root: path.join(__dirname)});
+  res.send("<h2>GET / | Express App Responded</h2>");
 });
 
 // api 라우터
