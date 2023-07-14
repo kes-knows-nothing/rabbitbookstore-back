@@ -20,7 +20,7 @@ orderRouter.post("/", loginRequired, async (req, res, next) => {
       products,
       phone,
       address,
-      totalPrice
+      totalPrice,
     });
 
     for (const product of products) {
