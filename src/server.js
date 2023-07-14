@@ -20,6 +20,7 @@ app.use(express.json());
 app.use(cors());
 
 app.get('/', (req, res) => {
+  console.log(path.join(__dirname));
   res.sendFile('index.html', {root: path.join(__dirname)});
 });
 
