@@ -2,7 +2,6 @@ import "./db";
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import path from "path";
 
 import userRouter from "./routers/userRouter";
 import productRouter from "./routers/productRouter";
