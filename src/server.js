@@ -20,8 +20,7 @@ app.use(express.json());
 app.use(cors());
 
 app.get('/', (req, res) => {
-  console.log(path.join(__dirname));
-  res.sendFile('index.html', {root: path.join(__dirname)});
+  res.send("<h2>GET / | Express App Responded</h2>");
 });
 
 // api 라우터
