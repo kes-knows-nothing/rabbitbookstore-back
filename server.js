@@ -1,13 +1,14 @@
-import "./db";
+import "./src/db";
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import * as path from 'path';
 
-import userRouter from "./routers/userRouter";
-import productRouter from "./routers/productRouter";
-import orderRouter from "./routers/orderRouter";
+import userRouter from "./src/routers/userRouter";
+import productRouter from "./src/routers/productRouter";
+import orderRouter from "./src/routers/orderRouter";
 import morgan from "morgan";
-import authRouter from "./routers/authRouter";
+import authRouter from "./src/routers/authRouter";
 
 const app = express();
 const logger = morgan("dev");
@@ -27,7 +28,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
 app.use("/api/products", productRouter);
 app.use("/api/orders", orderRouter);
-app.use("/static", express.static("public"));
+app.use("/static", express.static(path.join(__dirname, "public")));
 
 
 app.use((req, res, next) => {
