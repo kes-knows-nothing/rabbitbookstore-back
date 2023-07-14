@@ -45,3 +45,5 @@ const PORT = 3000;
 app.listen(PORT, function () {
   console.log(`Server is running now successfully!! port: ${PORT}`);
 });
+
+module.exports = app;
